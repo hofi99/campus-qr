@@ -95,7 +95,7 @@ class AllCheckIns : RComponent<AllCheckInsProps, AllCheckInsState>() {
         renderLinearProgress(state.showProgress)
         div(props.classes.content) {
           muiAutocomplete {
-            attrs.value = state.selectedLocation?.name ?: ""
+            attrs.value = state.selectedLocation?.name ?: "" // TODO: "" is not a valid option
             attrs.onChange = { _, target: String?, _ ->
               setState {
                 selectedLocation = target?.let { locationNameToLocationMap[it] }
