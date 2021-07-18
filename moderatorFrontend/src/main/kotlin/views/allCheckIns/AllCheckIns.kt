@@ -2,12 +2,11 @@ package views.allCheckIns
 
 import com.studo.campusqr.common.*
 import kotlinext.js.js
+import kotlinx.browser.window
 import react.*
 import react.dom.div
 import util.*
-import views.common.centeredProgress
-import views.common.renderLinearProgress
-import views.common.spacer
+import views.common.*
 import webcore.*
 import webcore.extensions.launch
 import webcore.materialUI.*
@@ -15,6 +14,7 @@ import kotlin.js.Date
 
 interface AllCheckInsProps : RProps {
   var classes: AllCheckInsClasses
+  var userData: UserData
 }
 
 interface AllCheckInsState : RState {
@@ -40,6 +40,18 @@ class AllCheckIns : RComponent<AllCheckInsProps, AllCheckInsState>() {
   override fun componentDidMount() {
     getAllCheckIns()
     fetchLocations()
+  }
+
+  private fun handleDeleteCheckInResponse(response: String?, successText: String) {
+    setState {
+      snackbarText = when (response) {
+        "ok" -> {
+          getAllCheckIns()
+          successText
+        }
+        else -> Strings.error_try_again.get()
+      }
+    }
   }
 
   private fun fetchLocations() = launch {
@@ -94,6 +106,32 @@ class AllCheckIns : RComponent<AllCheckInsProps, AllCheckInsState>() {
       checkIns.isNotEmpty() && state.locationNameToLocationMap.isNotEmpty() -> {
         renderLinearProgress(state.showProgress)
         div(props.classes.content) {
+          renderToolbarView(
+            ToolbarViewProps.Config(
+              title = Strings.locations.get(),
+              buttons = listOfNotNull(
+                ToolbarViewProps.ToolbarButton(
+                  text = Strings.checkin_element_download_csv.get(), // canViewCheckIns check would be redundant
+                  variant = "outlined",
+                  onClick = {
+                    launch {
+                      setState {
+                        showProgress = true
+                      }
+                      val checkInsData =
+                        NetworkManager.get<CheckInsData>("$apiBase/allCheckIns/checkInsCsv")
+                          ?: return@launch
+                      fileDownload(data = checkInsData.csvData, fileName = checkInsData.csvFileName)
+                      setState {
+                        showProgress = false
+                      }
+                    }
+                  }
+                ),
+              )
+            )
+          )
+
           muiAutocomplete {
             attrs.value = state.selectedLocation?.name ?: "" // TODO: "" is not a valid option
             attrs.onChange = { _, target: String?, _ ->
@@ -124,6 +162,9 @@ class AllCheckIns : RComponent<AllCheckInsProps, AllCheckInsState>() {
               mTableRow {
                 mTableCell { +Strings.all_checkins_checkin_email.get() }
                 mTableCell { +Strings.all_checkins_checkin_date.get() }
+                if (props.userData.clientUser?.canEditUsers == true) {
+                  mTableCell { +Strings.actions.get() }
+                }
               }
             }
             mTableBody {
@@ -132,8 +173,11 @@ class AllCheckIns : RComponent<AllCheckInsProps, AllCheckInsState>() {
                   if (checkIn != null) {
                     renderAllCheckInsTableRow(
                       AllCheckInsTableRowProps.Config(
-                        email = checkIn.email,
-                        checkInDate = checkIn.checkInDate
+                        checkIn = checkIn,
+                        onDeleteFinished = { response ->
+                          handleDeleteCheckInResponse(response, Strings.checkin_deleted.get())
+                        },
+                        userData = props.userData,
                       )
                     )
                   }
@@ -143,8 +187,11 @@ class AllCheckIns : RComponent<AllCheckInsProps, AllCheckInsState>() {
                   if (checkIn != null) {
                     renderAllCheckInsTableRow(
                       AllCheckInsTableRowProps.Config(
-                        email = checkIn.email,
-                        checkInDate = checkIn.checkInDate
+                        checkIn = checkIn,
+                        onDeleteFinished = { response ->
+                          handleDeleteCheckInResponse(response, Strings.checkin_deleted.get())
+                        },
+                        userData = props.userData,
                       )
                     )
                   }
@@ -152,6 +199,11 @@ class AllCheckIns : RComponent<AllCheckInsProps, AllCheckInsState>() {
               }
             }
           }
+          // TODO: add table pagination
+          /*
+          mTablePagination {
+            attrs.rowsPerPage = 10
+          }*/
         }
       }
       state.showProgress || state.locationFetchInProgress -> centeredProgress()
@@ -195,6 +247,7 @@ private val style = { _: dynamic ->
 
 private val styled = withStyles<AllCheckInsProps, AllCheckIns>(style)
 
-fun RBuilder.renderAllCheckIns() = styled {
+fun RBuilder.renderAllCheckIns(userData: UserData) = styled {
   // Set component attrs here
+  attrs.userData = userData
 }

@@ -1,17 +1,29 @@
 package views.allCheckIns
 
+import app.routeContext
+import com.studo.campusqr.common.*
 import kotlinext.js.js
+import kotlinx.browser.window
 import react.*
 import util.Strings
+import util.apiBase
+import util.fileDownload
 import util.get
 import views.common.spacer
+import webcore.MenuItem
+import webcore.NetworkManager
+import webcore.extensions.launch
+import webcore.materialMenu
 import webcore.materialUI.*
 
 interface AllCheckInsTableRowProps : RProps {
   class Config(
-    val email: String,
-    val checkInDate: String,
-  )
+    val checkIn: AllCheckIn?,
+    val onDeleteFinished: (response: String?) -> Unit,
+    val userData: UserData,
+  ) {
+    val clientUser: ClientUser get() = userData.clientUser!!
+  }
 
   var config: Config
   var classes: AllCheckInsTableRowClasses
@@ -34,10 +46,36 @@ class AllCheckInsTableRow(props: AllCheckInsTableRowProps) : RComponent<AllCheck
   override fun RBuilder.render() {
     mTableRow {
       mTableCell {
-        +props.config.email
+        +props.config.checkIn?.email!!
       }
       mTableCell {
-        +props.config.checkInDate
+        +props.config.checkIn?.checkInDate!!
+      }
+      if (props.config.clientUser.canEditUsers == true) {
+        mTableCell {
+          routeContext.Consumer { routeContext ->
+            if (state.showProgress) {
+              circularProgress {}
+            } else {
+              materialMenu(
+                menuItems = listOfNotNull(
+                  MenuItem(text = Strings.checkin_delete.get(), icon = deleteIcon, onClick = {
+                    if (window.confirm(Strings.checkin_delete_are_you_sure.get())) {
+                      launch {
+                        val response = NetworkManager.post<String>(
+                          "$apiBase/allCheckIns/${props.config.checkIn?.id}/delete",
+                          params = null
+                        )
+                        props.config.onDeleteFinished(response)
+                      }
+                    }
+                  }),
+                )
+              )
+            }
+          }
+
+        }
       }
     }
   }

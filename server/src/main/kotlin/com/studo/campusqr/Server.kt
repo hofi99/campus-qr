@@ -151,6 +151,10 @@ suspend fun main() {
       }
       route("allCheckIns") {
         get { call.getAuthenticatedCall()?.listAllCheckIns() }
+        get("checkInsCsv") { call.getAuthenticatedCall()?.returnCheckInsCsvData() }
+        route("{id}") {
+          post("delete") {call.getAuthenticatedCall()?.deleteCheckIn()}
+        }
       }
       route("admin") {
         get("campusqr-admin.js") { call.returnModeratorJs() }

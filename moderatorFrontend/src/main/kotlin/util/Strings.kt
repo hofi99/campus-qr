@@ -335,6 +335,26 @@ object Strings {
     "Keine Orte vorhanden"
   )
 
+  val checkin_delete = LocalizedString(
+    "Delete check in",
+    "Check-In löschen"
+  )
+
+  val checkin_deleted = LocalizedString(
+    "Check in successfully deleted",
+    "Check-In erfolgreich gelöscht"
+  )
+
+  val checkin_delete_are_you_sure = LocalizedString(
+    "Are you sure you want to delete this check in?",
+    "Sind Sie sicher, dass Sie diesen Check-In löschen möchten?"
+  )
+
+  val checkin_element_download_csv = LocalizedString(
+    "Download check ins as Excel .csv file",
+    "Check-Ins als Excel .csv Datei herunterladen"
+  )
+
   val alert_title_info = LocalizedString(
     "Info",
     "Info"

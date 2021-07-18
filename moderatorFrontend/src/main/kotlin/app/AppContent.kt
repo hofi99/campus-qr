@@ -49,7 +49,7 @@ class AppContent : RComponent<AppContentProps, AppContentState>() {
       Url.GUEST_CHECK_IN -> renderGuestCheckInOverview()
       Url.LOCATIONS_LIST -> renderListLocations(userData = props.config.userData!!)
       Url.REPORT -> renderReport()
-      Url.ALL_CHECK_INS -> renderAllCheckIns()
+      Url.ALL_CHECK_INS -> renderAllCheckIns(userData = props.config.userData!!)
       Url.USERS -> renderUsers(userData = props.config.userData!!)
       Url.ACCOUNT_SETTINGS -> renderMyAccount(MyAccountProps.Config(props.config.userData!!))
       Url.ADMIN_INFO -> renderAdminInfo()

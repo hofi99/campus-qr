@@ -21,6 +21,15 @@ fun Date.toAustrianTime(yearAtBeginning: Boolean = true): String {
   return this.toAustrianTime(pattern)
 }
 
+fun Date.toAustrianTimeUnderscore(pattern: String): String {
+  return SimpleDateFormat(pattern).apply { timeZone = austriaTimeZone }.format(this)
+}
+
+fun Date.toAustrianTimeUnderscore(yearAtBeginning: Boolean = true): String {
+  val pattern = if (yearAtBeginning) "yyyy_MM_dd" else "dd_MM_yyyy"
+  return this.toAustrianTime(pattern)
+}
+
 fun Date.addWeeks(weeks: Int): Date = addDays(weeks * 7)
 
 fun Date.addDays(days: Int): Date {

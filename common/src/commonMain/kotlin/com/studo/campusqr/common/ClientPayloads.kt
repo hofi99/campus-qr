@@ -50,6 +50,11 @@ class LocationVisitData(
   val csvFileName: String,
 ) : ClientPayload
 
+class CheckInsData(
+  val csvData: String,
+  val csvFileName: String,
+) : ClientPayload
+
 class ClientUser(
   val id: String,
   val email: String,
