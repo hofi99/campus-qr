@@ -149,6 +149,9 @@ suspend fun main() {
         post("listActiveCheckIns") { call.getAuthenticatedCall()?.listAllActiveCheckIns() }
         get("listActiveGuestCheckIns") { call.getAuthenticatedCall()?.listGuestActiveCheckIns() }
       }
+      route("allCheckIns") {
+        get { call.getAuthenticatedCall()?.listAllCheckIns() }
+      }
       route("admin") {
         get("campusqr-admin.js") { call.returnModeratorJs() }
         get("/{...}") { call.returnModeratorIndexHtml() }

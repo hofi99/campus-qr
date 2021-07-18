@@ -21,6 +21,7 @@ enum class Url(val path: String, val title: LocalizedString, val requiresAuth: B
   GUEST_CHECK_IN("$pathBase/guest-check-in", Strings.guest_checkin, requiresAuth = true),
   LOCATIONS_LIST("$pathBase/locations", Strings.locations, requiresAuth = true),
   REPORT("$pathBase/report", Strings.report, requiresAuth = true),
+  ALL_CHECK_INS("$pathBase/allCheckIns", Strings.all_check_ins, requiresAuth = true),
   USERS("$pathBase/users", Strings.user_management, requiresAuth = true),
   ACCOUNT_SETTINGS("$pathBase/accountSettings", Strings.account_settings, requiresAuth = true),
   ADMIN_INFO("$pathBase/adminInfo", Strings.admin_info, requiresAuth = true),

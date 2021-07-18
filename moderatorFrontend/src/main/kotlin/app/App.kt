@@ -86,6 +86,13 @@ class App : RComponent<AppProps, AppState>() {
           url = Url.REPORT
         )
       }
+      if (state.userData?.clientUser?.canViewCheckIns == true) {
+        items += SideDrawerItem(
+          label = Url.ALL_CHECK_INS.title,
+          icon = contactIcon,
+          url = Url.ALL_CHECK_INS
+        )
+      }
 
       return items
     }

@@ -557,6 +557,10 @@ val cropIcon: RClass<IconProps> = importedCropIcon.default
 private external val importedRotateRightIcon: dynamic
 val rotateRightIcon: RClass<IconProps> = importedRotateRightIcon.default
 
+@JsModule("@material-ui/icons/Contacts")
+private external val importedContactsIcon: dynamic
+val contactIcon: RClass<IconProps> = importedContactsIcon.default
+
 @JsModule("@material-ui/core/Typography")
 private external val importedTypography: dynamic
 
@@ -687,6 +691,35 @@ interface ListProps : RProps {
 }
 
 val list: RClass<ListProps> = importedList.default
+
+
+@JsModule("@material-ui/lab/Alert")
+private external val importedAlert: dynamic
+
+interface AlertProps : RProps {
+  var action: dynamic
+  var closeText: String // def: 'Close'
+  var color: String // 'error' | 'info' | 'success' | 'warning'
+  var icon: dynamic
+  var iconMapping: dynamic // { error?: node, info?: node, success?: node, warning?: node }
+  var onClose: (Event) -> Unit
+  var role: String // def: 'alert'
+  var severity: String // 'error' | 'info' | 'success' | 'warning' // def: 'success'
+  var variant: String // 'filled' | 'outlined' | 'standard' // def: 'standard'
+}
+
+val alert: RClass<AlertProps> = importedAlert.default
+
+
+@JsModule("@material-ui/lab/AlertTitle")
+private external val importedAlertTitle: dynamic
+
+interface AlertTitleProps : RProps {
+  var sx: dynamic
+}
+
+val alertTitle: RClass<AlertTitleProps> = importedAlertTitle.default
+
 
 @JsModule("@material-ui/core/Modal")
 private external val importedModal: dynamic

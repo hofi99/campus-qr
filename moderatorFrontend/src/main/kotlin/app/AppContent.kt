@@ -11,6 +11,7 @@ import util.Url
 import views.accessManagement.accessManagementExport.renderAccessManagementExportList
 import views.accessManagement.accessManagementOverview.renderAccessManagementList
 import views.adminInfo.renderAdminInfo
+import views.allCheckIns.renderAllCheckIns
 import views.common.pathNotFoundView
 import views.guestCheckIn.guestCheckInOverview.renderGuestCheckInOverview
 import views.locations.locationsOverview.renderListLocations
@@ -48,6 +49,7 @@ class AppContent : RComponent<AppContentProps, AppContentState>() {
       Url.GUEST_CHECK_IN -> renderGuestCheckInOverview()
       Url.LOCATIONS_LIST -> renderListLocations(userData = props.config.userData!!)
       Url.REPORT -> renderReport()
+      Url.ALL_CHECK_INS -> renderAllCheckIns()
       Url.USERS -> renderUsers(userData = props.config.userData!!)
       Url.ACCOUNT_SETTINGS -> renderMyAccount(MyAccountProps.Config(props.config.userData!!))
       Url.ADMIN_INFO -> renderAdminInfo()

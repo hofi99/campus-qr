@@ -310,6 +310,36 @@ object Strings {
     "Alle Check-ins der infizierten Person als Excel .csv Datei exportieren"
   )
 
+  val all_checkins_checkin_email = LocalizedString(
+    "E-mail Address",
+    "E-Mail Adresse"
+  )
+
+  val all_checkins_checkin_date = LocalizedString(
+    "Check in Date",
+    "Check-In Zeitpunkt"
+  )
+
+  val all_checkins_error = LocalizedString(
+    "Could not retrieve check ins.",
+    "Es konnten keine Check-Ins abgerufen werden."
+  )
+
+  val all_checkins_none_checkedin = LocalizedString(
+    "No check ins recorded",
+    "Keine Check-ins vorhanden"
+  )
+
+  val all_checkins_no_locations = LocalizedString(
+    "No locations recorded",
+    "Keine Orte vorhanden"
+  )
+
+  val alert_title_info = LocalizedString(
+    "Info",
+    "Info"
+  )
+
   val account_settings = LocalizedString(
     "My Account",
     "Mein Konto"
@@ -717,6 +747,11 @@ object Strings {
   val live_check_ins = LocalizedString(
     "Live - currently checked in",
     "Live - derzeit eingecheckt",
+  )
+
+  val all_check_ins = LocalizedString(
+    "All Check Ins",
+    "Alle Check Ins",
   )
 
 }
